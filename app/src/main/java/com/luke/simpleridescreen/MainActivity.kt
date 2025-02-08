@@ -1,5 +1,6 @@
 package com.luke.simpleridescreen
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,64 +76,84 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SimpleRideScreenTheme {
+
+                val state = remember { mutableStateOf(RideScreenState()) }
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RideScreen(modifier = Modifier.padding(innerPadding))
+                    RideScreen(
+                        state = state.value,
+                        onEvent = { event ->
+                            when (event) {
+                                is RideScreenEvent.ToggleMotor -> {
+                                    state.value = state.value.copy(motorOn = !state.value.motorOn)
+                                    if (state.value.motorOn) state.value =
+                                        state.value.copy(isAnimating = true)
+                                }
+
+                                is RideScreenEvent.ChangeRideMode -> {
+                                    state.value = state.value.copy(selectedRideMode = event.index)
+                                }
+
+                                is RideScreenEvent.StartAnimation -> {
+                                    state.value = state.value.copy(isAnimating = event.isAnimating)
+                                }
+                            }
+                        },
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
+
             }
         }
     }
 }
 
 @Composable
-fun RideScreen(modifier: Modifier = Modifier) {
-    // State variables
-    var motorOn by remember { mutableStateOf(true) }
-    var speed by remember { mutableFloatStateOf(0f) }
-    var tripA by remember { mutableFloatStateOf(0.0f) }
-    val rideModes = listOf("Eco", "Normal", "SONIC")
-    var selectedRideMode by remember { mutableStateOf(1) }
-    var odometer by remember { mutableIntStateOf(2356) }
-    var isAnimating by remember { mutableStateOf(true) }
+fun RideScreen(
+    state: RideScreenState,
+    onEvent: (RideScreenEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
-    val animatedSpeed = remember { Animatable(0f) }
+    val rideModes = listOf("Eco", "Normal", "SONIC")
 
     // Animated background color transition
     val backgroundColor by animateColorAsState(
         targetValue = when {
-            animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
-            animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
+            state.animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
+            state.animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
             else -> Color(0xFF929a26) // Greenish-Yellow (Low Speed)
         },
         animationSpec = tween(1000),
     )
 
     // 🚀 Speed Animation Loop
-    LaunchedEffect(key1 = isAnimating) {
-        if (isAnimating) {
+    LaunchedEffect(key1 = state.isAnimating) {
+        if (state.isAnimating) {
             delay(500)
-            animatedSpeed.animateTo(
+            state.animatedSpeed.animateTo(
                 targetValue = 100f,
-                animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
+                animationSpec = tween(3000, easing = LinearEasing)
             )
-            animatedSpeed.animateTo(
+            state.animatedSpeed.animateTo(
                 targetValue = 0f,
-                animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
+                animationSpec = tween(3000, easing = LinearEasing)
             )
-            isAnimating = false
+            onEvent(RideScreenEvent.StartAnimation(false))
         }
     }
 
     // 🎨 Animate Gradient Radius (Small -> Large)
     val gradientRadius by animateFloatAsState(
-        visibilityThreshold = 100f,
-        targetValue = (animatedSpeed.value / 100f) * 800f + 600f, // Min 200f, Max 1000f
+        visibilityThreshold = 0.1f,
+        targetValue = (state.animatedSpeed.value / 100f) * 800f + 600f, // Min 200f, Max 1000f
         animationSpec = tween(100)
     )
 
     val tintColor by animateColorAsState(
         targetValue = when {
-            animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
-            animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
+            state.animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
+            state.animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
             else -> Color(0xFF929a26) // Greenish-Yellow (Low Speed)
         },
         animationSpec = tween(1000),
@@ -150,15 +172,16 @@ fun RideScreen(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
 
+
         // 🔹 Background Path Animation (Based on Speed)
-        SpeedometerFrame1(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame2(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame3(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame4(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame5(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame6(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame7(animatedSpeed.value, tintColor = tintColor)
-        SpeedometerFrame8(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame1(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame2(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame3(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame4(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame5(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame6(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame7(state.animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame8(state.animatedSpeed.value, tintColor = tintColor)
 
         Column(
             modifier = modifier.fillMaxSize(),
@@ -167,7 +190,8 @@ fun RideScreen(modifier: Modifier = Modifier) {
         ) {
             // Motor Status (Top Center)
             Text(
-                text = if (motorOn) "Motor ON" else "Motor OFF",
+                modifier = Modifier.clickable { onEvent(RideScreenEvent.ToggleMotor) },
+                text = if (state.motorOn) "Motor ON" else "Motor OFF",
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -182,7 +206,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(24.dp))
                 Row {
                     Text(
-                        text = "${animatedSpeed.value.toInt()}",
+                        text = "${state.animatedSpeed.value.toInt()}",
                         style = MaterialTheme.typography.displayLarge,
                         fontFamily = highSwiftFamily,
                         fontWeight = FontWeight.Bold,
@@ -212,7 +236,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
             ) {
                 // Trip A (Bottom Left)
                 Text(
-                    text = "Trip A\n$tripA",
+                    text = "Trip A\n${state.tripA}",
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyLarge,
@@ -226,16 +250,16 @@ fun RideScreen(modifier: Modifier = Modifier) {
                 ) {
                     IconButton(
                         onClick = {
-                            if (selectedRideMode > 0) {
-                                selectedRideMode--
+                            if (state.selectedRideMode > 0) {
+                                onEvent(RideScreenEvent.ChangeRideMode(state.selectedRideMode - 1))
                             }
                         },
-                        enabled = selectedRideMode > 0
+                        enabled = state.selectedRideMode > 0
                     ) {
                         Icon(
                             Icons.Default.KeyboardArrowLeft,
                             contentDescription = "Left Arrow",
-                            tint = if (selectedRideMode > 0) Color.White else Color.Gray,
+                            tint = if (state.selectedRideMode > 0) Color.White else Color.Gray,
                             modifier = Modifier.size(45.dp),
                         )
                     }
@@ -245,7 +269,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
                         contentAlignment = Alignment.Center
                     ) {
                         AnimatedContent(
-                            targetState = rideModes[selectedRideMode],
+                            targetState = rideModes[state.selectedRideMode],
                             transitionSpec = {
                                 (slideInHorizontally { it } + fadeIn()).togetherWith(
                                     slideOutHorizontally { -it } + fadeOut())
@@ -253,7 +277,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
                         ) { mode ->
                             Row {
                                 AnimatedVisibility(
-                                    selectedRideMode == 2,
+                                    visible = state.selectedRideMode == 2,
                                     enter = slideInHorizontally { it } + fadeIn(),
                                     exit = slideOutHorizontally { -it } + fadeOut()
                                 ) {
@@ -270,23 +294,23 @@ fun RideScreen(modifier: Modifier = Modifier) {
                                     fontSize = 36.sp,
                                     textAlign = TextAlign.Center,
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = if (selectedRideMode == 2) Color.Red else Color.Gray
+                                    color = if (state.selectedRideMode == 2) Color.Red else Color.Gray
                                 )
                             }
                         }
                     }
                     IconButton(
                         onClick = {
-                            if (selectedRideMode < rideModes.size - 1) {
-                                selectedRideMode++
+                            if (state.selectedRideMode < rideModes.size - 1) {
+                                onEvent(RideScreenEvent.ChangeRideMode(state.selectedRideMode + 1))
                             }
                         },
-                        enabled = selectedRideMode < rideModes.size - 1
+                        enabled = state.selectedRideMode < rideModes.size - 1
                     ) {
                         Icon(
                             Icons.Default.KeyboardArrowRight,
                             contentDescription = "Right Arrow",
-                            tint = if (selectedRideMode < rideModes.size - 1) Color.White else Color.Gray,
+                            tint = if (state.selectedRideMode < rideModes.size - 1) Color.White else Color.Gray,
                             modifier = Modifier.size(45.dp)
                         )
                     }
@@ -294,7 +318,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
 
                 // Odometer (Bottom Right)
                 Text(
-                    text = "ODO\n$odometer",
+                    text = "ODO\n${state.odometer}",
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyLarge,
@@ -305,10 +329,22 @@ fun RideScreen(modifier: Modifier = Modifier) {
     }
 }
 
+@SuppressLint("UnrememberedAnimatable")
 @Preview(showBackground = true, widthDp = 1024, heightDp = 768)
 @Composable
 fun RideScreenPreview() {
     SimpleRideScreenTheme {
-        RideScreen()
+        RideScreen(
+            state = RideScreenState(
+                motorOn = true,
+                tripA = 0.0f,
+                selectedRideMode = 1,
+                odometer = 2356,
+                isAnimating = true,
+                animatedSpeed = Animatable(0f)
+            ),
+            onEvent = { },
+            modifier = Modifier,
+        )
     }
 }
