@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.luke.simpleridescreen.R
-import kotlin.math.min
 
 fun mapSpeedToScale(speed: Float, maxScale: Float): Float {
     return when {
@@ -27,7 +25,7 @@ fun mapSpeedToScale(speed: Float, maxScale: Float): Float {
 }
 
 @Composable
-fun SpeedometerFrame1(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame1(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 0.90f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 0.90f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -41,7 +39,8 @@ fun SpeedometerFrame1(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-140).dp, y = (-40).dp)
+            .offset(x = (-140).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector1_r), // Load the SVG frame
@@ -52,13 +51,14 @@ fun SpeedometerFrame1(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (140).dp, y = (-40).dp)
+            .offset(x = (140).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 
 }
 
 @Composable
-fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 0.94f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 0.94f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -72,7 +72,8 @@ fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-156).dp, y = (-40).dp)
+            .offset(x = (-156).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector2_r), // Load the SVG frame
@@ -83,14 +84,15 @@ fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (156).dp, y = (-40).dp)
+            .offset(x = (156).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 
 
 }
 
 @Composable
-fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     fun mapSpeedToShrinkScale(speed: Float): Float {
         return when {
@@ -112,7 +114,8 @@ fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-172).dp, y = (-40).dp)
+            .offset(x = (-172).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector3_r), // Load the SVG frame
@@ -123,12 +126,13 @@ fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (172).dp, y = (-40).dp)
+            .offset(x = (172).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 }
 
 @Composable
-fun SpeedometerFrame4(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame4(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 1.02f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 1.02f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -142,7 +146,8 @@ fun SpeedometerFrame4(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-187).dp, y = (-40).dp)
+            .offset(x = (-187).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector4_r), // Load the SVG frame
@@ -153,12 +158,13 @@ fun SpeedometerFrame4(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (187).dp, y = (-40).dp)
+            .offset(x = (187).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 }
 
 @Composable
-fun SpeedometerFrame5(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame5(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 1.06f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 1.06f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -172,7 +178,8 @@ fun SpeedometerFrame5(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-203).dp, y = (-40).dp)
+            .offset(x = (-203).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector5_r), // Load the SVG frame
@@ -183,13 +190,14 @@ fun SpeedometerFrame5(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (203).dp, y = (-40).dp)
+            .offset(x = (203).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 
 }
 
 @Composable
-fun SpeedometerFrame6(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame6(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 1.1f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 1.1f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -203,7 +211,8 @@ fun SpeedometerFrame6(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-219).dp, y = (-40).dp)
+            .offset(x = (-219).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector6_r), // Load the SVG frame
@@ -214,12 +223,13 @@ fun SpeedometerFrame6(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (219).dp, y = (-40).dp)
+            .offset(x = (219).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 }
 
 @Composable
-fun SpeedometerFrame7(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame7(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 1.14f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 1.14f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -233,7 +243,8 @@ fun SpeedometerFrame7(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-234).dp, y = (-40).dp)
+            .offset(x = (-234).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector7_r), // Load the SVG frame
@@ -244,12 +255,13 @@ fun SpeedometerFrame7(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (234).dp, y = (-40).dp)
+            .offset(x = (234).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 }
 
 @Composable
-fun SpeedometerFrame8(animatedSpeed: Float, modifier: Modifier = Modifier) {
+fun SpeedometerFrame8(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
     val scale = mapSpeedToScale(animatedSpeed, 1.18f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 1.18f), animationSpec = tween(100, easing = FastOutSlowInEasing))
@@ -263,7 +275,8 @@ fun SpeedometerFrame8(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-250).dp, y = (-40).dp)
+            .offset(x = (-250).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector8_r), // Load the SVG frame
@@ -274,6 +287,7 @@ fun SpeedometerFrame8(animatedSpeed: Float, modifier: Modifier = Modifier) {
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (250).dp, y = (-40).dp)
+            .offset(x = (250).dp, y = (-40).dp),
+        colorFilter = ColorFilter.tint(tintColor)
     )
 }

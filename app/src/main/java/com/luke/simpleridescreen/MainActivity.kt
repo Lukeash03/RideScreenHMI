@@ -15,7 +15,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,6 +32,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -65,6 +65,7 @@ import com.luke.simpleridescreen.components.SpeedometerFrame7
 import com.luke.simpleridescreen.components.SpeedometerFrame8
 import com.luke.simpleridescreen.ui.theme.SimpleRideScreenTheme
 import com.luke.simpleridescreen.ui.theme.highSwiftFamily
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,7 +95,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
     val animatedSpeed = remember { Animatable(0f) }
 
     // Animated background color transition
-    val backgroundColor1 by animateColorAsState(
+    val backgroundColor by animateColorAsState(
         targetValue = when {
             animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
             animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
@@ -106,6 +107,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
     // 🚀 Speed Animation Loop
     LaunchedEffect(key1 = isAnimating) {
         if (isAnimating) {
+            delay(500)
             animatedSpeed.animateTo(
                 targetValue = 100f,
                 animationSpec = tween(durationMillis = 3000, easing = LinearEasing)
@@ -125,12 +127,21 @@ fun RideScreen(modifier: Modifier = Modifier) {
         animationSpec = tween(100)
     )
 
+    val tintColor by animateColorAsState(
+        targetValue = when {
+            animatedSpeed.value >= 80f -> Color(0xFFe51c1b) // Red (High Speed)
+            animatedSpeed.value >= 60f -> Color(0xFF8b652b) // Brown (Medium Speed)
+            else -> Color(0xFF929a26) // Greenish-Yellow (Low Speed)
+        },
+        animationSpec = tween(1000),
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.radialGradient(
-                    colors = listOf(backgroundColor1, Color.Black),
+                    colors = listOf(backgroundColor, Color.Black),
                     center = Offset.Unspecified,
                     radius = gradientRadius
                 )
@@ -139,14 +150,14 @@ fun RideScreen(modifier: Modifier = Modifier) {
     ) {
 
         // 🔹 Background Path Animation (Based on Speed)
-        SpeedometerFrame1(animatedSpeed.value)
-        SpeedometerFrame2(animatedSpeed.value)
-        SpeedometerFrame3(animatedSpeed.value)
-        SpeedometerFrame4(animatedSpeed.value)
-        SpeedometerFrame5(animatedSpeed.value)
-        SpeedometerFrame6(animatedSpeed.value)
-        SpeedometerFrame7(animatedSpeed.value)
-        SpeedometerFrame8(animatedSpeed.value)
+        SpeedometerFrame1(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame2(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame3(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame4(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame5(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame6(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame7(animatedSpeed.value, tintColor = tintColor)
+        SpeedometerFrame8(animatedSpeed.value, tintColor = tintColor)
 
         Column(
             modifier = modifier.fillMaxSize(),
@@ -223,8 +234,8 @@ fun RideScreen(modifier: Modifier = Modifier) {
                         Icon(
                             Icons.Default.KeyboardArrowLeft,
                             contentDescription = "Left Arrow",
-                            tint = Color.White,
-                            modifier = Modifier.size(45.dp)
+                            tint = if (selectedRideMode > 0) Color.White else Color.Gray,
+                            modifier = Modifier.size(45.dp),
                         )
                     }
 
@@ -268,7 +279,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
                         Icon(
                             Icons.Default.KeyboardArrowRight,
                             contentDescription = "Right Arrow",
-                            tint = Color.White,
+                            tint = if (selectedRideMode > 0) Color.White else Color.Gray,
                             modifier = Modifier.size(45.dp)
                         )
                     }
