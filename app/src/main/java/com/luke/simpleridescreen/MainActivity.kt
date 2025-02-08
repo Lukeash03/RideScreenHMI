@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -251,13 +252,19 @@ fun RideScreen(modifier: Modifier = Modifier) {
                             }
                         ) { mode ->
                             Row {
-                                Text(
-                                    text = if (selectedRideMode == 2) "E R D " else "",
-                                    fontSize = 36.sp,
-                                    textAlign = TextAlign.Center,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = Color.Gray
-                                )
+                                AnimatedVisibility(
+                                    selectedRideMode == 2,
+                                    enter = slideInHorizontally { it } + fadeIn(),
+                                    exit = slideOutHorizontally { -it } + fadeOut()
+                                ) {
+                                    Text(
+                                        text = "E R D ",
+                                        fontSize = 36.sp,
+                                        textAlign = TextAlign.Center,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = Color.Gray
+                                    )
+                                }
                                 Text(
                                     text = mode,
                                     fontSize = 36.sp,
@@ -279,7 +286,7 @@ fun RideScreen(modifier: Modifier = Modifier) {
                         Icon(
                             Icons.Default.KeyboardArrowRight,
                             contentDescription = "Right Arrow",
-                            tint = if (selectedRideMode > 0) Color.White else Color.Gray,
+                            tint = if (selectedRideMode < rideModes.size - 1) Color.White else Color.Gray,
                             modifier = Modifier.size(45.dp)
                         )
                     }

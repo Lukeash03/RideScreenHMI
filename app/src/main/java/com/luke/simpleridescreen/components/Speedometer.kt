@@ -34,24 +34,24 @@ fun SpeedometerFrame1(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector1_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(200.dp)
+            .size(250.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-140).dp, y = (-40).dp),
+            .offset(x = (-170).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector1_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(200.dp)
+            .size(250.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (140).dp, y = (-40).dp),
+            .offset(x = (170).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 
@@ -67,24 +67,24 @@ fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector2_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(240.dp)
+            .size(290.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-156).dp, y = (-40).dp),
+            .offset(x = (-186).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector2_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(240.dp)
+            .size(290.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (156).dp, y = (-40).dp),
+            .offset(x = (186).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 
@@ -94,14 +94,6 @@ fun SpeedometerFrame2(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
 @Composable
 fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier, tintColor: Color) {
 
-    fun mapSpeedToShrinkScale(speed: Float): Float {
-        return when {
-            speed < 40f -> 1f - (speed / 40f) * 0.04f  // 1x → 0.96x
-            speed in 40f..80f -> 0.96f - ((speed - 40f) / 40f) * 0.16f  // 0.96x → 0.80x
-            else -> 0.80f - ((speed - 80f) / 19f) * 0.04f  // 0.80x → 0.76x
-        }
-    }
-
     val scale = mapSpeedToScale(animatedSpeed, 0.98f)
 //    val scale by animateFloatAsState(mapSpeedToScale(animatedSpeed, 0.98f), animationSpec = tween(100, easing = FastOutSlowInEasing))
 
@@ -109,24 +101,24 @@ fun SpeedometerFrame3(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector3_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(280.dp)
+            .size(330.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-172).dp, y = (-40).dp),
+            .offset(x = (-202).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector3_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(280.dp)
+            .size(330.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (172).dp, y = (-40).dp),
+            .offset(x = (202).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 }
@@ -141,24 +133,24 @@ fun SpeedometerFrame4(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector4_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(320.dp)
+            .size(370.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-187).dp, y = (-40).dp),
+            .offset(x = (-217).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector4_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(320.dp)
+            .size(370.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (187).dp, y = (-40).dp),
+            .offset(x = (217).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 }
@@ -173,24 +165,24 @@ fun SpeedometerFrame5(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector5_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(360.dp)
+            .size(410.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-203).dp, y = (-40).dp),
+            .offset(x = (-233).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector5_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(360.dp)
+            .size(410.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (203).dp, y = (-40).dp),
+            .offset(x = (233).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 
@@ -206,24 +198,24 @@ fun SpeedometerFrame6(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector6_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(400.dp)
+            .size(450.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-219).dp, y = (-40).dp),
+            .offset(x = (-249).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector6_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(400.dp)
+            .size(450.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (219).dp, y = (-40).dp),
+            .offset(x = (249).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 }
@@ -238,24 +230,24 @@ fun SpeedometerFrame7(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector7_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(440.dp)
+            .size(490.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-234).dp, y = (-40).dp),
+            .offset(x = (-264).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector7_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(440.dp)
+            .size(490.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (234).dp, y = (-40).dp),
+            .offset(x = (264).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 }
@@ -270,24 +262,24 @@ fun SpeedometerFrame8(animatedSpeed: Float, modifier: Modifier = Modifier, tintC
         painter = painterResource(id = R.drawable.vector8_l), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(480.dp)
+            .size(530.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (-250).dp, y = (-40).dp),
+            .offset(x = (-280).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
     Image(
         painter = painterResource(id = R.drawable.vector8_r), // Load the SVG frame
         contentDescription = "Speedometer",
         modifier = modifier
-            .size(480.dp)
+            .size(530.dp)
             .graphicsLayer(
                 scaleX = scale,
                 scaleY = scale
             )
-            .offset(x = (250).dp, y = (-40).dp),
+            .offset(x = (280).dp, y = (-40).dp),
         colorFilter = ColorFilter.tint(tintColor)
     )
 }
